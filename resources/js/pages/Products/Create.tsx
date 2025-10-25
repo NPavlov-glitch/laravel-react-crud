@@ -18,7 +18,7 @@ export default function Index() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create a New Product" />
             <div className='w-8/12 p-4'>
-                <form action="">
+                <form className='space-y-4' action="">
                     <div className='gap-1.5'>
                         <Label htmlFor='product name'>Name</Label>
                         <Input placeholder='Products Name'></Input>
@@ -34,7 +34,7 @@ export default function Index() {
                         <Textarea placeholder='Description'></Textarea>
                     </div>
 
-                    <Button>Submit</Button>
+                    <Button type="submit">Add Product</Button>
                 </form>
             </div>
         </AppLayout>
