@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -21,5 +22,8 @@ class ProductController extends Controller
             'price'       => 'required|numeric',
             'description' => 'nullable|string',
         ]);
+
+        Product::create($request->all());
+        return redirect()->route('products.index')->with('message', 'Product created successfully');
     }
 }
