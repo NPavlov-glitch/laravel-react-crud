@@ -9,11 +9,17 @@ use Inertia\Inertia;
 class ProductController extends Controller
 {
     public function index() {
-        return Inertia::render('Products/Index');
+        $products = Product::all();
+        return Inertia::render('Products/Index', compact('products'));
     }
 
     public function create() {
         return Inertia::render('Products/Create');
+    }
+
+    public function destroy(Product $product) {
+        $product->delete();
+        return redirect()->route('products.index')->with('message', 'Product deleted successfully');
     }
 
     public function store(Request $request) {

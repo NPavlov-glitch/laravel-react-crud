@@ -24,6 +24,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/products',[ProductController::class, 'store']
     )->name('products.store');
+
+    Route::delete('/products/{product}',[ProductController::class, 'destroy']
+    )->name('products.destroy');
 });
 
 require __DIR__.'/settings.php';

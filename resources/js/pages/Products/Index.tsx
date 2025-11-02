@@ -2,8 +2,17 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Link, Head, usePage } from '@inertiajs/react';
+import { Link, Head, usePage, useForm } from '@inertiajs/react';
 import { Megaphone } from 'lucide-react';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -12,15 +21,31 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+interface Product {
+    id: number,
+    name: string,
+    price: number,
+    description: string,
+}
+
 interface PageProps{
     flash: {
         message?: string
-    }
+    },
+    products: Product
 }
 
 export default function Index() {
 
-    const { flash } = usePage().props as PageProps;
+    const { products, flash } = usePage().props as PageProps;
+
+    const {processing, delete: destroy} = useForm();
+
+    const handleDelete = (id: number, name: string) => {
+        if (confirm(`Do you want to delete a product - ${id}. ${name}`)) {
+            destroy(`/products/${id}`);
+        }
+    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -46,6 +71,36 @@ export default function Index() {
                     )}
                 </div>
             </div>
+            {products.length > 0 && (
+                <div className='m-4'>
+                    <Table>
+                        <TableCaption>A list of your recent products.</TableCaption>
+                        <TableHeader>
+                            <TableRow>
+                            <TableHead className="w-[100px]">ID</TableHead>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Price</TableHead>
+                            <TableHead>Description</TableHead>
+                            <TableHead className="text-center">Action</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {products.map((product) => (
+                                <TableRow>
+                                    <TableCell className="font-medium">{product.id}</TableCell>
+                                    <TableCell>{product.name}</TableCell>
+                                    <TableCell>{product.price}</TableCell>
+                                    <TableCell>{product.description}</TableCell>
+                                    <TableCell className="text-center">
+                                        <Button disabled={processing} onClick={() => handleDelete(product.id, product.name)} className="bg-red-500 hover:bg-red-700">Delete</Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+
+            )}
         </AppLayout>
     );
 }
