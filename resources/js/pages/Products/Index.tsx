@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { route } from 'ziggy-js';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -43,7 +44,7 @@ export default function Index() {
 
     const handleDelete = (id: number, name: string) => {
         if (confirm(`Do you want to delete a product - ${id}. ${name}`)) {
-            destroy(`/products/${id}`);
+            destroy(route("products.destroy", id));
         }
     }
 
