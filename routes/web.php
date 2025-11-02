@@ -27,6 +27,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::delete('/products/{product}',[ProductController::class, 'destroy']
     )->name('products.destroy');
+
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit']
+    )->name('products.edit');
+
+    Route::put('/products/{product}', [ProductController::class, 'update']
+    )->name('products.update');
 });
 
 require __DIR__.'/settings.php';
